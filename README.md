@@ -18,22 +18,22 @@ A pasta "build" contém arquivos de construção gerados pelo Android Gradle Plu
 A classe "R" é uma classe gerada automaticamente pelo Android durante o processo de compilação do projeto. Ela atua como um recurso de referência e é usada para acessar os recursos declarados no projeto, 
 como layouts XML, strings, imagens, estilos, IDs de views e muito mais. A classe "R" é atualizada automaticamente sempre que novos recursos são adicionados ao projeto.
 
-<b> Como vinculo um evento sobre um item de layout a um trecho de código? <\b>
+<b> Como vinculo um evento sobre um item de layout a um trecho de código? </b>
 
 Para vincular um evento a um item de layout no Android, siga os seguintes passos:
 
 No arquivo de layout XML (por exemplo, "activity_main.xml"), atribua um ID único ao elemento de layout que você deseja vincular ao evento. Por exemplo:
 
 xml
-Copy code
 <Button
     android:id="@+id/buttonClick"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Clique Aqui" />
+    
 No código Java da atividade (por exemplo, "MainActivity.java"), encontre a referência do elemento usando o método findViewById e, em seguida, defina o OnClickListener para o elemento. Por exemplo:
+
 java
-Copy code
 Button buttonClick = findViewById(R.id.buttonClick);
 buttonClick.setOnClickListener(new View.OnClickListener() {
     @Override
