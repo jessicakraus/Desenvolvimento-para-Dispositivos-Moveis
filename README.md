@@ -1,11 +1,11 @@
 # Desenvolvimento-para-Dispositivos-Moveis
 
-O que é a atividade no Android?
+<b> O que é a atividade no Android? </b>
 No Android, uma atividade (Activity) é uma das principais construções da interface do usuário em um aplicativo. Ela representa uma tela única com uma interface do usuário. Cada atividade é geralmente responsável por exibir 
 informações ou interagir com o usuário de alguma forma. Por exemplo, ao abrir um aplicativo de lista de tarefas, a tela inicial do aplicativo pode ser representada por uma atividade que lista as tarefas. Quando o usuário clica em uma tarefa, 
 outra atividade pode ser aberta para exibir detalhes sobre aquela tarefa.
 
-Como é a organização dos arquivos do projeto Android?
+<b> Como é a organização dos arquivos do projeto Android? </b>
 O projeto Android é organizado em várias pastas e arquivos, e cada um tem sua função específica:
 
 A pasta "app" contém os códigos-fonte e recursos do aplicativo.
@@ -14,11 +14,11 @@ A pasta "res" contém recursos, como layouts XML, strings, imagens, etc.
 A pasta "manifests" contém o arquivo "AndroidManifest.xml", que descreve informações essenciais sobre o aplicativo.
 A pasta "build" contém arquivos de construção gerados pelo Android Gradle Plugin.
 
-O que é classe R?
+<b> O que é classe R? </b>
 A classe "R" é uma classe gerada automaticamente pelo Android durante o processo de compilação do projeto. Ela atua como um recurso de referência e é usada para acessar os recursos declarados no projeto, 
 como layouts XML, strings, imagens, estilos, IDs de views e muito mais. A classe "R" é atualizada automaticamente sempre que novos recursos são adicionados ao projeto.
 
-Como vinculo um evento sobre um item de layout a um trecho de código?
+<b> Como vinculo um evento sobre um item de layout a um trecho de código? <\b>
 
 Para vincular um evento a um item de layout no Android, siga os seguintes passos:
 
@@ -45,7 +45,7 @@ buttonClick.setOnClickListener(new View.OnClickListener() {
     }
 });
 
-<b>O que é o ADB? Para que serve tente compreender o funcionamento descrevendo como é possível a comunicação.<\b>
+<b> O que é o ADB? Para que serve tente compreender o funcionamento descrevendo como é possível a comunicação. </b>
 
 ADB (Android Debug Bridge) é uma ferramenta de linha de comando que faz parte do Android SDK (Software Development Kit). Ela permite a comunicação entre um computador e um dispositivo Android (ou emulador Android) 
 para fins de depuração, instalação de aplicativos, transferência de arquivos e outras tarefas de desenvolvimento.
