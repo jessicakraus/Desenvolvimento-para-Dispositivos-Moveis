@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageViewCirculo;
     private ImageView imageViewLinha;
     private ImageView ivColorPicker;
+    private ImageView imageViewLapis;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         imageViewCirculo = findViewById(R.id.circulo);
         imageViewLimpar = findViewById(R.id.limpar);
         imageViewVoltar = findViewById(R.id.voltar);
+        imageViewLapis = findViewById(R.id.free_draw);
         ivColorPicker = findViewById(R.id.ivColorPicker);
 
         // Define um ouvinte de cliques para as visualizações
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.ivColorPicker:
                         colorPickerSelectColor();
                         break;
+                    case R.id.free_draw:
+                        simplePaint.setStyleType(StyleType.desenhoLivre);
+                        break;
                 }
             }
         };
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         imageViewCirculo.setOnClickListener(onClickListener);
         imageViewLimpar.setOnClickListener(onClickListener);
         imageViewVoltar.setOnClickListener(onClickListener);
+        imageViewLapis.setOnClickListener(onClickListener);
         ivColorPicker.setOnClickListener(onClickListener);
     }
 

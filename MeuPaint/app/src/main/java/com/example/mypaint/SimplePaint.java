@@ -19,12 +19,18 @@ public class SimplePaint extends View {
     private Paint currentPaint;
     private Path currentPath;
     private final ColorDrawable currentColor;
-    private StyleType style = StyleType.linha;
+    private StyleType style = StyleType.desenhoLivre;
+
+    private boolean isPencilMode = false;
 
     float auxiliarLxInicial = 0,
             auxiliarLxFinal = 0,
             auxiliarLyInicial = 0,
             auxiliarLyFinal = 0;
+
+    public void setPencilMode(boolean pencilMode) {
+        isPencilMode = pencilMode;
+    }
 
     public SimplePaint(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -51,16 +57,6 @@ public class SimplePaint extends View {
             canvas.drawPath(pathList.get(i), paintList.get(i));
         }
 
-        switch (style) {
-            case linha:
-                canvas.drawPath(currentPath, currentPaint);
-                break;
-            case circulo:
-                break;
-            case quadrado:
-                break;
-        }
-
         canvas.drawPath(currentPath, currentPaint);
     }
 
@@ -75,41 +71,24 @@ public class SimplePaint extends View {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+
+                if (style != StyleType.desenhoLivre) {
+                    isPencilMode = false;
+                }else {
+                    isPencilMode = true;
+                }
+
                 currentPath.moveTo(lx, ly);
                 auxiliarLxInicial = lx;
                 auxiliarLyInicial = ly;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                auxiliarLxFinal = lx;
+                auxiliarLxFinal = lx; // Define o ponto final inicialmente igual ao ponto inicial
                 auxiliarLyFinal = ly;
-                double distanciaMovendo = Math.sqrt(Math.pow(auxiliarLxFinal - auxiliarLxInicial, 2) + Math.pow(auxiliarLyFinal - auxiliarLyInicial, 2));
-
-                if (style == StyleType.linha) {
-                    currentPath.lineTo(lx, ly);
-                } else if (style == StyleType.circulo) {
-                    float raio = (float) (distanciaMovendo / 2);
-                    float x = (auxiliarLxInicial + auxiliarLxFinal) / 2;
-                    float y = (auxiliarLyInicial + auxiliarLyFinal) / 2;
-                    currentPath.reset();
-                    currentPath.addCircle(x, y, raio, Path.Direction.CW);
-                } else if (style == StyleType.quadrado) {
-                    currentPath.reset();
-                    // Garanta que os pontos estejam na ordem correta para desenhar o retângulo
-                    float left = Math.min(auxiliarLxInicial, auxiliarLxFinal);
-                    float right = Math.max(auxiliarLxInicial, auxiliarLxFinal);
-                    float top = Math.min(auxiliarLyInicial, auxiliarLyFinal);
-                    float bottom = Math.max(auxiliarLyInicial, auxiliarLyFinal);
-                    currentPath.addRect(left, top, right, bottom, Path.Direction.CW);
-                }
                 break;
 
             case MotionEvent.ACTION_UP:
-                auxiliarLxFinal = lx;
-                auxiliarLyFinal = ly;
 
                 if (style == StyleType.linha) {
-                    currentPath.lineTo(lx, ly);
+                    currentPath.lineTo(lx, ly); // Desenha uma linha reta
                 } else if (style == StyleType.circulo) {
                     double distanciaFinal = Math.sqrt(Math.pow(auxiliarLxFinal - auxiliarLxInicial, 2) + Math.pow(auxiliarLyFinal - auxiliarLyInicial, 2));
                     float raio = (float) (distanciaFinal / 2);
@@ -125,14 +104,26 @@ public class SimplePaint extends View {
                     float bottom = Math.max(auxiliarLyInicial, auxiliarLyFinal);
                     currentPath.reset();
                     currentPath.addRect(left, top, right, bottom, Path.Direction.CW);
+                }else if (style == StyleType.desenhoLivre) {
+                    isPencilMode = true;
+                    currentPath.lineTo(lx, ly);
+                    paintList.add(currentPaint);
+                    pathList.add(currentPath);
                 }
 
                 paintList.add(currentPaint);
                 pathList.add(currentPath);
-
                 initialize();
                 break;
-            default:
+
+            case MotionEvent.ACTION_MOVE:
+
+                if (isPencilMode) {
+                    currentPath.lineTo(lx, ly);
+                }
+
+                auxiliarLxFinal = lx;
+                auxiliarLyFinal = ly;
                 break;
         }
 
@@ -145,11 +136,14 @@ public class SimplePaint extends View {
         currentPaint.setColor(color.toArgb());
     }
     public void backDraw() {
-        if (!paintList.isEmpty()) {
-            paintList.remove(paintList.size() - 1);
-            pathList.remove(pathList.size() - 1);
-            invalidate();
+        if (paintList.isEmpty()) {
+            return;
         }
+
+        paintList.remove(paintList.size() - 1);
+        pathList.remove(pathList.size() - 1);
+
+        invalidate();
     }
 
     public void removeDraw() {
@@ -167,4 +161,5 @@ enum StyleType {
     linha,
     circulo,
     quadrado,
+    desenhoLivre,
 }
