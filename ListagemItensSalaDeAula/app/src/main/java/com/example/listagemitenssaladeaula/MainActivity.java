@@ -4,51 +4,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editText;
-    private Button btnAdd;
-    private ListView listView;
-    private ArrayList<String> stringList;
-    private ArrayAdapter<String> adapter;
-
+    ListView lv;
+    String [] names = new String[] {"tte", "dfffg", "fgggg"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv = findViewById(R.id.listView);
 
-        editText = findViewById(R.id.editText);
-        btnAdd = findViewById(R.id.button_Adicionar);
-        listView = findViewById(R.id.listView);
+        //Recuperar meu data source com fotos e nome
+        ArrayList<Item> arrayList = new ArrayList<>();
+        arrayList.add(new Item(1, "Cachorro", R.drawable.cachorro));
+        arrayList.add(new Item(2, "Jardim", R.drawable.gardem));
+        arrayList.add(new Item(3, "Happy", R.drawable.happy));
+        arrayList.add(new Item(4, "Patinho", R.drawable.patinho));
+        arrayList.add(new Item(5, "Porquinho", R.drawable.porquinho));
 
-        stringList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, stringList);
-        listView.setAdapter(adapter);
+        ItensAdapter adapter = new ItensAdapter(this, R.layout.item_lista, arrayList);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newString = editText.getText().toString();
-                if (!newString.isEmpty()) {
-                    stringList.add(newString);
-                    adapter.notifyDataSetChanged(); // Atualiza a lista após a adição
-                    editText.setText("");
-                }
-            }
-        });
+        lv.setAdapter(adapter);
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_lista, R.id.textViewnome, names);*/
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Remove o item da lista quando ele é clicado
-                stringList.remove(position);
-                adapter.notifyDataSetChanged(); // Atualiza a lista após a exclusão
+                TextView tv = view.findViewById(android.R.id.text1);
+                Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
             }
         });
     }

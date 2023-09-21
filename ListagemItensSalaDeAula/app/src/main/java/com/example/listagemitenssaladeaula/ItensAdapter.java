@@ -33,9 +33,11 @@ public class ItensAdapter extends ArrayAdapter<Item> {
 
         //Recuperar os componentes da View
         TextView tvnome = v.findViewById(R.id.textViewnome);
+        ImageView imageView = v.findViewById(R.id.imageView);
 
         assert item != null;
         tvnome.setText(item.name);
+        imageView.setImageResource(item.photo);
 
         return v;
     }
