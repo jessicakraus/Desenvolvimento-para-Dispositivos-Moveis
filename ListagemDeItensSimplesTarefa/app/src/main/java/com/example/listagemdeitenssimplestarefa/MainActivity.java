@@ -1,62 +1,63 @@
 package com.example.listagemdeitenssimplestarefa;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     private EditText editText;
-    private Button buttonAdicionar;
+    private Button addButton;
     private ListView listView;
     private ArrayList<String> itemList;
     private ArrayAdapter<String> adapter;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview);
+        setContentView(R.layout.activity_main);
 
         editText = findViewById(R.id.editText);
-        buttonAdicionar = findViewById(R.id.Button_Adicionar);
+        addButton = findViewById(R.id.addButton);
         listView = findViewById(R.id.listView);
 
         itemList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
+        adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.textView, itemList);
         listView.setAdapter(adapter);
 
-        buttonAdicionar.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItem();
+                String item = editText.getText().toString();
+                if (!item.isEmpty()) {
+                    itemList.add(item);
+                    adapter.notifyDataSetChanged();
+                    editText.getText().clear();
+                }
             }
         });
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            removeItem(position);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Button deleteButton = view.findViewById(R.id.deleteButton);
+
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = listView.getPositionForView((View) v.getParent());
+                        if (position != ListView.INVALID_POSITION) {
+                            itemList.remove(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+            }
         });
-    }
-
-    private void addItem() {
-        String item = editText.getText().toString().trim();
-        if (!item.isEmpty()) {
-            itemList.add(item);
-            adapter.notifyDataSetChanged();
-            editText.setText("");
-        }
-    }
-
-    private void removeItem(int position) {
-        itemList.remove(position);
-        adapter.notifyDataSetChanged();
     }
 }
