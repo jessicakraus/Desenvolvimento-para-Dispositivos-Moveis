@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Dock para acesso rápido -->
+    <LinearLayout
+        android:id="@+id/dock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <!-- Coloque os ícones dos aplicativos frequentemente utilizados aqui -->
+    </LinearLayout>
+
+    <!-- SearchView -->
+
+    <!-- Grid de aplicativos -->
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dock"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-82dp"
+        android:layout_marginBottom="82dp"></SearchView>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"
+        android:layout_above="@id/dock"
+        android:numColumns="auto_fit"
+        android:columnWidth="90dp"
+        android:gravity="center">
+    </GridView>
+
+</RelativeLayout>
